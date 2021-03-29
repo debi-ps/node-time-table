@@ -3,6 +3,7 @@ const config = require('config');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const { requireAuth } = require('./middleware/auth.middleware');
 
 const app = express();
 const PORT = config.get('app.port');
@@ -29,6 +30,9 @@ app.use(cookieParser());
 
 // routes
 app.get('/ping', async (req, res) => res.send('pong'));
+
+// auth ping
+app.get('/auth-ping', requireAuth, async (req, res) => res.send('auth-pong'));
 
 // cookies
 app.get('/set-cookie', async (req, res) => {
