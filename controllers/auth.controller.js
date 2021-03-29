@@ -85,8 +85,11 @@ const login = async (req, res) => {
 // Logout user
 const logout = async (req, res) => {
 	try {
-		req.cookie();
-	} catch (e) {}
+		res.cookie('jwt', '', { maxAge: 1 });
+		res.json({ message: 'success' });
+	} catch (e) {
+		res.status(500).json();
+	}
 };
 
 module.exports = {
