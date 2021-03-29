@@ -4,5 +4,9 @@
 	},
 	"db": {
 		"url": "mongodb://app:loki_123@127.0.0.1:27017/cluster_local?authSource=admin"
+	},
+	"jwt": {
+		"maxAge": 259200,
+		"secret": "asoduialsjdajshdkasjhd"
 	}
 }
