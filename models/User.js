@@ -20,6 +20,7 @@ const userSchema = new Schema(
 			type: String,
 			required: [true, 'Please enter a password.'],
 			minLength: [6, 'Minimal length of the password is 6 characters.'],
+			select: false,
 		},
 		isAdmin: {
 			type: Boolean,
@@ -28,13 +29,6 @@ const userSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
-// fire a function after doc saved to db
-userSchema.post('save', function (doc, next) {
-	console.log('new user created and save', doc);
-
-	next();
-});
 
 // fire a function before doc saved to db
 userSchema.pre('save', async function (next) {
@@ -49,7 +43,7 @@ userSchema.pre('save', async function (next) {
 
 // static method to login user
 userSchema.statics.login = async function (email, password) {
-	const user = await this.findOne({ email });
+	const user = await this.findOne({ email }).select('+password');
 
 	if (user) {
 		const match = await bcrypt.compare(password, user.password);

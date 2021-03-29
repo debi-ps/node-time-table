@@ -77,6 +77,7 @@ const login = async (req, res) => {
 
 		res.json({ message: 'success' });
 	} catch (e) {
+		console.log(e);
 		const errors = handleError(e);
 		res.status(400).json(errors);
 	}
@@ -88,12 +89,19 @@ const logout = async (req, res) => {
 		res.cookie('jwt', '', { maxAge: 1 });
 		res.json({ message: 'success' });
 	} catch (e) {
+		console.log(e);
 		res.status(500).json();
 	}
+};
+
+// User token self lookup
+const me_get = async (req, res) => {
+	res.json(req.user);
 };
 
 module.exports = {
 	signup,
 	login,
 	logout,
+	me_get,
 };
