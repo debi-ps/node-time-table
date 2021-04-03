@@ -10,13 +10,14 @@ const PORT = config.get('app.port');
 
 app.use(
 	cors({
-		origin: 'http://localhost:3000',
+		origin: config.get('app.origin'),
 	})
 );
 
 mongoose.connect(config.get('db.url'), {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
+	useCreateIndex: true,
 });
 
 app.listen(PORT, () => {
@@ -29,5 +30,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(assignUser);
 
-// auth
+// routes
 app.use(require('./routes/auth.routes'));
+app.use(
+	'/projects/tasks',
+	requireAuth,
+	require('./routes/project-task.router')
+);
+app.use('/projects', requireAuth, require('./routes/project.router'));
