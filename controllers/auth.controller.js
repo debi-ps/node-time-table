@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const bcrypt = require('bcrypt');
+const { handleError } = require('../hooks/handle/error-handle.hook');
 
 const User = require('../models/User');
 
@@ -17,31 +17,6 @@ const setJwtCookie = (res, token) => {
 		httpOnly: true,
 		maxAge: maxAge * 1000,
 	});
-};
-
-// handle errors
-const handleError = (err) => {
-	const errors = {};
-
-	// duplicate error code
-	if (err.code === 11000) {
-		Object.keys(err.keyValue).forEach((field) => {
-			errors[field] = `Field ${field} is already in use.`;
-		});
-
-		return errors;
-	}
-
-	// validation errors
-	if (err.message.includes('User validation failed')) {
-		Object.values(err.errors).forEach(({ properties }) => {
-			if (['name', 'email', 'password'].includes(properties.path)) {
-				errors[properties.path] = properties.message;
-			}
-		});
-	}
-
-	return errors;
 };
 
 // Signup user
