@@ -19,6 +19,13 @@ const handleError = (err) => {
 		});
 	}
 
+	// path is required handle.
+	if (err.message.includes('is required')) {
+		Object.values(err.errors).forEach(({ properties }) => {
+			errors[properties.path] = 'is required';
+		});
+	}
+
 	// ObjectId errors
 	if (err.message.includes('Cast to ObjectId failed')) {
 		errors[err.path] = `Invalid ${err.path}`;
