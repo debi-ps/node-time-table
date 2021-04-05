@@ -1,7 +1,20 @@
 {
 	"app": {
 		"port": 3000,
-		"origin": "http://localhost:3000"
+		"origin": "http://localhost:3000",
+		"task": {
+			"statuses": {
+				"list": [
+					"backlog",
+					"postponed",
+					"selected_for_development",
+					"in_progress",
+					"testing",
+					"completed"
+				],
+				"init": "backlog"
+			}
+		}
 	},
 	"db": {
 		"url": "mongodb://app:loki_123@127.0.0.1:27017/cluster_local?authSource=admin"

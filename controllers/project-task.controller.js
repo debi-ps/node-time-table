@@ -1,17 +1,17 @@
 const { handleError } = require('../hooks/handle/error-handle.hook');
 const { filterBody } = require('../hooks/handle/body-handle.hook');
 const ProjectTask = require('../models/ProjectTask');
-const User = require('../models/User');
 
 // Create task.
 module.exports.task_create_post = async (req, res) => {
-	const { title, description, project, assigne, executor } = req.body;
+	const { title, description, project, status, assigne, executor } = req.body;
 
 	try {
 		const task = await ProjectTask.create({
 			title,
 			description,
 			project,
+			status,
 			assigne: assigne || req.user._id,
 			executor,
 		});
@@ -45,12 +45,13 @@ module.exports.task_list_get = async (req, res) => {
 // Update task.
 module.exports.task_update_put = async (req, res) => {
 	const id = req.params.id;
-	const { title, description, project, assigne, executor } = req.body;
+	const { title, description, project, status, assigne, executor } = req.body;
 
 	const updatable = filterBody({
 		title,
 		description,
 		project,
+		status,
 		assigne,
 		executor,
 	});

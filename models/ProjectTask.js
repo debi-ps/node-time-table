@@ -1,4 +1,5 @@
 const { Schema, SchemaTypes, model } = require('mongoose');
+const config = require('config');
 
 const projectTaskSchema = new Schema(
 	{
@@ -10,6 +11,12 @@ const projectTaskSchema = new Schema(
 		project: {
 			type: SchemaTypes.ObjectId,
 			ref: 'Project',
+			required: true,
+		},
+		status: {
+			type: String,
+			enum: config.get('app.task.statuses.list'),
+			default: config.get('app.task.statuses.init'),
 			required: true,
 		},
 		assigne: {

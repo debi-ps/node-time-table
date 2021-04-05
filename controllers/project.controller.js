@@ -62,7 +62,7 @@ module.exports.project_list_get = async (req, res) => {
 		res.json(user.projects);
 	} catch (e) {
 		handleError(e);
-		res.status(500).json();
+		res.status(500).json({ message: 'server error' });
 	}
 };
 
@@ -76,7 +76,7 @@ module.exports.project_owned_list_get = async (req, res) => {
 		res.json(projects);
 	} catch (e) {
 		handleError(e);
-		res.status(500).json();
+		res.status(500).json({ message: 'server error' });
 	}
 };
 
